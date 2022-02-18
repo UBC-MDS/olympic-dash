@@ -1,4 +1,11 @@
 ## Motivation and Purpose
+Our role: Data scientist consultancy firm  
+
+Target audience: International Olympic Committee members (and the curious public)  
+
+“The goal of the Olympic Movement is to contribute to building a peaceful and better world by educating youth through sport practiced without discrimination of any kind and in the Olympic spirit, which requires mutual understanding with a spirit of friendship, solidarity and fair play.”[^1]
+
+To assist the IOC in validating potential discrimination and foul play, we propose building a visualization app to allow IOC members (and members of the general public) to explore historical Olympic results to review the success trends of various countries to determine abnormal performance trends and which countries could be future high medal achievers.
 
 ## Description of the Data
 
@@ -14,3 +21,5 @@ Some of the research questions that our app will answer are the following:
 Here's also a description of the user persona:
 
 Harry is a member of the IOC (International Olympic Committee). He and his team have been working recently on investigating if there are any abnormal performance trends for certain countries. They want to know if there is something that they can do to help countries that have been perfoming worse every olympic cycle with the techniques that high performing countries are using to generate more competitive events in the olympics. They also want to know which are countries are on the rise, to become future contenders in most events, so that they can reward them by hosting the olympics on their countries if feasible and encourage athlete development around the world in this way.
+
+[^1]: [International Olympic Committee: Beyond the Games](https://olympics.com/ioc/beyond-the-games)
