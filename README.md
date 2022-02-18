@@ -23,10 +23,10 @@ Lastly, a line graph will display the number of medals earned by countries over 
 figure will be accompanied by a dropdown list allowing users to select a subset of countries 
 to display on the graph. 
 
-A general slider included on the side of the dashboard will allow for filtering of 
-summer/winter Olympics data, while radio buttons will allow for users to filter data 
-by the type of medals displayed. Using these filters, users can investigate trends 
-in Olympic success between countries as well as athlete demographics.
+Radio buttons on the side of the dashboard will allow for filtering of 
+summer/winter Olympics data, in addition to allowing for users to filter data 
+by the type of medals. Using these filters, users will be able to investigate trends 
+in Olympic success between countries, medal types, athlete demographics, and more.
 
 ## Proposed Sketch
 
@@ -46,7 +46,7 @@ This app was developed by the following contributors:
 ## Code of Conduct
 
 In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
-For more details, see our code of conduct: [a relative link](CONDUCT.md)
+For more details, see our [code of conduct.](CONDUCT.md)
 
 ## License
 
