@@ -9,6 +9,8 @@ To assist the IOC in validating potential discrimination and foul play, we propo
 
 ## Description of the Data
 We will be visualizing a historical dataset on the modern Olympic Games, including the Game from Athens 1896 to Rio 2016. The dataset is from [tidytuesday](https://github.com/rfordatascience/tidytuesday). There are 271116 observations(rows) in the dataset, which shows the data for 135571 athletes. Each row corresponds to an individual athlete competing in an individual Olympic event (athlete-events). There are 15 associated variables(columns). The key columns that we use for visualization are name, age, height(in cm), team(Country/Team competing for), games(Olympic games name), year(Year of Olympics), season(either Winter or Summer), city(City of Olympic host), sport, event, and medal(Gold, Silver, Bronze or NA).
+
+Note that the Winter and Summer Games were held in the same year up until 1992. After that, they staggered them such that Winter Games occur on a four-year cycle starting with 1994, then Summer in 1996, then Winter in 1998, and so on. A common mistake people make when analyzing this data is to assume that the Summer and Winter Games have always been staggered.
 ## Reseach Question and Usage Scenario
 
 Some of the research questions that our app will answer are the following:
