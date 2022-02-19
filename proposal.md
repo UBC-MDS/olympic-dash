@@ -8,7 +8,7 @@ Target audience: International Olympic Committee members (and the curious public
 To assist the IOC in validating potential discrimination and foul play, we propose building a visualization app to allow IOC members (and members of the general public) to explore historical Olympic results to review the success trends of various countries to determine abnormal performance trends and which countries could be future high medal achievers.
 
 ## Description of the Data
-
+We will be visualizing a historical dataset on the modern Olympic Games, including the Game from Athens 1896 to Rio 2016. The dataset is from [tidytuesday](https://github.com/rfordatascience/tidytuesday). There are 271116 observations(rows) in the dataset, which shows the data for 135571 athletes. Each row corresponds to an individual athlete competing in an individual Olympic event (athlete-events). There are 15 associated variables(columns). The key columns that we use for visualization are name, age, height(in cm), team(Country/Team competing for), games(Olympic games name), year(Year of Olympics), season(either Winter or Summer), city(City of Olympic host), sport, event, and medal(Gold, Silver, Bronze or NA).
 ## Reseach Question and Usage Scenario
 
 Some of the research questions that our app will answer are the following:
