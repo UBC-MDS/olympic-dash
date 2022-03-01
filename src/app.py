@@ -1,7 +1,7 @@
+from re import X
 from dash import Dash, dcc, html, Input, Output
 import pandas as pd
 import altair as alt
-from vega_datasets import data
 
 # import data
 raw_df = pd.read_csv("../data/raw/olympics_data.csv", index_col = 0)
@@ -12,9 +12,6 @@ app = Dash(__name__, external_stylesheets=['https://codepen.io/chriddyp/pen/bWLw
 server = app.server
 
 app.layout = html.Div([
-        html.Iframe(
-            id='scatter',
-            style={'border-width': '0', 'width': '100%', 'height': '400px'}),
         dcc.RadioItems(
             id='season',
             options=[
@@ -29,6 +26,9 @@ app.layout = html.Div([
                 {'label': 'Silver', 'value': 'Silver'},
                 {'label': 'Bronze', 'value': 'Bronze'}],
             value=['Gold', 'Silver', 'Bronze']),
+        html.Iframe(
+            id='scatter',
+            style={'border-width': '0', 'width': '100%', 'height': '400px'}),
         dcc.Slider(id='medals_by_country',
             value=2000,
             min=1896,
@@ -58,7 +58,7 @@ def data_preprocess(season, medal_type):
 
         for medal in medal_type:
             temp = temp_df[temp_df['medal'] == medal]
-            filter = filter.append(temp)
+            filter = pd.concat([filter, temp])
         
         return filter.to_json()
 
@@ -86,10 +86,11 @@ def plot_altair(filter_df, medals_by_country):
         df = df.reset_index()
 
         chart = alt.Chart(df).mark_circle().encode(
-                y = 'athletes',
-                x = 'ave_metals',
-                size = 'metal_count',
-                tooltip='noc').interactive()
+                x = alt.X('athletes', title = 'Number of Athletes'),
+                y = alt.Y('ave_metals', title = 'Ave. Metals per Athlete'),
+                size = alt.Size('metal_count', title = "Total Metal Count"),
+                tooltip='noc'
+                ).interactive()
         
         return chart.to_html()
 
