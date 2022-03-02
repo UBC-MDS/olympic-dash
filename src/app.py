@@ -6,6 +6,15 @@ from vega_datasets import data
 # import data
 raw_df = pd.read_csv("../data/raw/olympics_data.csv", index_col = 0)
 
+# list of the top 20 events
+top20_events = (raw_df
+                .groupby("event")
+                .count()['id']
+                .sort_values(ascending=False)
+                .head(20)
+                .index
+                .tolist())
+
 ## Setup app and layout/frontend
 app = Dash(__name__, external_stylesheets=['https://codepen.io/chriddyp/pen/bWLwgP.css'])
 
@@ -14,6 +23,13 @@ server = app.server
 app.layout = html.Div([
         html.Iframe(
             id='scatter',
+            style={'border-width': '0', 'width': '100%', 'height': '400px'}),
+        dcc.Dropdown(
+            id='event-dropdown',
+            value="Football Men's Football",
+            options=[{'label': event, 'value': event} for event in top20_events]),
+        html.Iframe(
+            id='height_hist',
             style={'border-width': '0', 'width': '100%', 'height': '400px'}),
         dcc.RadioItems(
             id='season',
@@ -36,6 +52,8 @@ app.layout = html.Div([
             step=2,
             marks=None,
             tooltip={"placement": "bottom", "always_visible": True}),
+
+        
 
         # dcc.Store stores the intermediate value
         dcc.Store(id='filter_df')
@@ -90,6 +108,28 @@ def plot_altair(filter_df, medals_by_country):
                 x = 'ave_metals',
                 size = 'metal_count',
                 tooltip='noc').interactive()
+        
+        return chart.to_html()
+
+@app.callback(
+    Output('height_hist', 'srcDoc'),
+    Input('filter_df', 'data'),
+    Input('medals_by_country', 'value'),
+    Input('event-dropdown', 'value'),
+    Input('medal_type', 'value'))
+def plot_altair(filter_df, medals_by_country, event, medal_type):
+        temp = pd.read_json(filter_df)
+        year = int(medals_by_country)
+
+        temp = temp[temp['year'] == year]
+        temp = temp[temp['event'] == event]
+        if type(medal_type) != list:
+            temp = temp[temp['medal'] == medal_type]
+
+        chart = alt.Chart(temp).mark_bar().encode(
+            x=alt.X('height', bin=alt.Bin(maxbins=20)),
+            y='count()'
+            )
         
         return chart.to_html()
 
