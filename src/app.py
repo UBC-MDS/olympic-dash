@@ -34,8 +34,8 @@ app.layout = html.Div([
         dcc.RadioItems(
             id='season',
             options=[
-                {'label': 'Summer', 'value': 'summer'},
-                {'label': 'Winter', 'value': 'winter'},
+                {'label': 'Summer', 'value': 'Summer'},
+                {'label': 'Winter', 'value': 'Winter'},
                 {'label': 'All', 'value': 'all'}],
             value='all'),
         dcc.Checklist(
