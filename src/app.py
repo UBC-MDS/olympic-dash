@@ -8,7 +8,7 @@ raw_df = pd.read_csv("../data/raw/olympics_data.csv", index_col = 0)
 
 # list of the top 20 events
 top20_events = (raw_df
-                .groupby("event")
+                .groupby("sport")
                 .count()['id']
                 .sort_values(ascending=False)
                 .head(20)
@@ -24,18 +24,14 @@ app.layout = html.Div([
         html.Iframe(
             id='scatter',
             style={'border-width': '0', 'width': '100%', 'height': '400px'}),
-        dcc.Dropdown(
-            id='event-dropdown',
-            value="Football Men's Football",
-            options=[{'label': event, 'value': event} for event in top20_events]),
         html.Iframe(
             id='height_hist',
             style={'border-width': '0', 'width': '100%', 'height': '400px'}),
         dcc.RadioItems(
             id='season',
             options=[
-                {'label': 'Summer', 'value': 'summer'},
-                {'label': 'Winter', 'value': 'winter'},
+                {'label': 'Summer', 'value': 'Summer'},
+                {'label': 'Winter', 'value': 'Winter'},
                 {'label': 'All', 'value': 'all'}],
             value='all'),
         dcc.Checklist(
@@ -115,21 +111,26 @@ def plot_altair(filter_df, medals_by_country):
     Output('height_hist', 'srcDoc'),
     Input('filter_df', 'data'),
     Input('medals_by_country', 'value'),
-    Input('event-dropdown', 'value'),
     Input('medal_type', 'value'))
-def plot_altair(filter_df, medals_by_country, event, medal_type):
+def plot_altair(filter_df, medals_by_country, medal_type):
         temp = pd.read_json(filter_df)
         year = int(medals_by_country)
 
         temp = temp[temp['year'] == year]
-        temp = temp[temp['event'] == event]
         if type(medal_type) != list:
             temp = temp[temp['medal'] == medal_type]
+
+        event_dropdown = alt.binding_select(options=top20_events)
+        event_select = alt.selection_single(fields=['sport'], bind=event_dropdown, name='Olympic')
 
         chart = alt.Chart(temp).mark_bar().encode(
             x=alt.X('height', bin=alt.Bin(maxbins=20)),
             y='count()'
-            )
+            ).add_selection(
+                event_select
+            ).transform_filter(
+                event_select
+            ).properties(title="Athlete Height Distribution")
         
         return chart.to_html()
 
