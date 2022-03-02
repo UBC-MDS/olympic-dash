@@ -63,11 +63,26 @@ def data_preprocess(season, medal_type):
     Output('line', 'srcDoc'),
     Input('filter_df', 'data'))
 def plot_altair(filter_df):
+    nocs = raw_df[["noc"]].values.ravel()
+    unique_noc = pd.unique(nocs).tolist()
+    unique_noc_sorted = sorted(unique_noc)
+
     line_chart_df = pd.read_json(filter_df)
-    chart = alt.Chart(line_chart_df).mark_line().encode(
+
+    chart_base = alt.Chart(line_chart_df).mark_line().encode(
         x='year',
         y=alt.Y("count()", title = 'Count of Medals')
-    ).interactive()
+    ).properties(title="Medals Earned Over Time")
+
+    genre_dropdown = alt.binding_select(options=unique_noc_sorted)
+    genre_select = alt.selection_single(fields=['noc'], bind=genre_dropdown, name="NOC")
+
+    chart = chart_base.add_selection(
+        genre_select
+    ).transform_filter(
+        genre_select
+    )
+
     return chart.to_html()
 
 if __name__ == '__main__':
