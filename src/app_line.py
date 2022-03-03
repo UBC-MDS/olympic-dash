@@ -2,7 +2,6 @@ import altair as alt
 from dash import Dash, dcc, html, Input, Output
 from vega_datasets import data
 import pandas as pd
-from altair import datum
 alt.data_transformers.enable('default', max_rows=None)
 
 # import data
@@ -19,8 +18,8 @@ app.layout = html.Div([
         options=[
             {'label': 'Summer', 'value': 'Summer'},
             {'label': 'Winter', 'value': 'Winter'},
-            {'label': 'All', 'value': 'All'}],
-        value='All'),
+            {'label': 'All', 'value': 'all'}],
+        value='all'),
     dcc.Checklist(
         id='medal_type',
         options=[
@@ -63,11 +62,11 @@ def data_preprocess(season, medal_type):
     Output('line', 'srcDoc'),
     Input('filter_df', 'data'))
 def plot_altair(filter_df):
-    nocs = raw_df[["noc"]].values.ravel()
+    line_chart_df = pd.read_json(filter_df)
+    # Get NOC list
+    nocs = line_chart_df[["noc"]].values.ravel()
     unique_noc = pd.unique(nocs).tolist()
     unique_noc_sorted = sorted(unique_noc)
-
-    line_chart_df = pd.read_json(filter_df)
 
     chart_base = alt.Chart(line_chart_df).mark_line().encode(
         x='year',
