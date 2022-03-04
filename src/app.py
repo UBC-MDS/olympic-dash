@@ -4,8 +4,8 @@ import altair as alt
 import dash_bootstrap_components as dbc
 alt.data_transformers.disable_max_rows()
 
-
 import os
+
 # import data
 # absolute path to this file
 FILE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -183,13 +183,16 @@ def plot_altair(filter_df, medals_by_country, medal_type):
     Output('age_hist', 'srcDoc'),
     Input('filter_df', 'data'),
     Input('age_slider', 'value'),
+    Input('medals_by_country', 'value'),
     Input('medal_type', 'value'))
-def plot_altair(filter_df, age_slider, medal_type):
+def plot_altair(filter_df, age_slider, medals_by_country, medal_type):
     
         temp = pd.read_json(filter_df)
         minage = int(age_slider[0])
         maxage = int(age_slider[1])
+        year = int(medals_by_country)
 
+        temp = temp[temp['year'] == year]
         temp = temp[temp['age'].between(minage, maxage)]
         temp["order"] = temp["medal"].replace({ 'Bronze' : 1, 'Silver' : 2, 'Gold' : 3 })
         if type(medal_type) != list:
