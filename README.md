@@ -1,8 +1,32 @@
 # olympic-dash
 
-An interactive dashboard illustrating historic olympic data and trends
+_**An interactive dashboard illustrating historic olympic data and trends**_
 
-## Description
+## Welcome!
+
+Thank you for visiting the olympic-dash project repository!
+
+This README file is a hub to give you some information about the project. Jump straight to one of the sections below, or just scroll down to find out more.
+
+* [What Are We Doing?](#what-are-we-doing)
+* [Description of The Dashboard](#description-of-the-dashboard)
+* [Proposed Sketch](#proposed-sketch)
+* [Contribute to This Dashboard](#contribute-to-this-dashboard)
+* [Contributors](#contributors)
+* [Code of Conduct](#code-of-conduct)
+* [License](#license)
+
+## What Are We Doing?
+
+> “The goal of the Olympic Movement is to contribute to building a peaceful and better world by educating youth through sport practiced without discrimination of any kind and in the Olympic spirit, which requires mutual understanding with a spirit of friendship, solidarity and fair play.” 
+> 
+> -- <cite>International Olympic Committee</cite>
+
+We propose building a visualization app to allow IOC members (and members of the general public) to explore historical Olympic results to review the success trends of various countries to determine abnormal performance trends and which countries could be future high medal achievers. All in the interest of making the olympic games more competitive and reward the countries that are developing their athletes and improving their performance in the games.
+
+## Description of The Dashboard
+
+To explore the current dashboard, please click [here](...LINK TO BE ADDED...).
 
 This app contains a dashboard which visualizes Olympic data from 1896 up until 2016. 
 Key metrics of interest will be displayed including: 
@@ -32,10 +56,7 @@ in Olympic success between countries, medal types, athlete demographics, and mor
 
 ![Alt text](img/olympic-dash-proposal.png?raw=true "Dashboard Proposal")
 
-## Usage and Installation
-TODO
-
-## Contributing to The Dashboard
+## Contribute to This Dashboard
 
 You are welcome to contribute to olympic-dash if you have any idea regarding to this dashboard. Please go through the [contributing guidelines](CONTRIBUTING.md) for the recommended ways if you want to contribute or report/fix any existing bugs.
 
@@ -47,18 +68,18 @@ To run the dashboard locally, we recommend to use a virtual environment like [ve
 
 Run the following command at the root directory of the project:
 
+1. Create a virtual environment
 ```
-# Create a virtual environment
 python -m venv olympicdash
 ```
 
+2. Activate the environment
 ```
-# Activate the environment
 source olympicdash/bin/activate
 ```
 
+3. Install the requirements
 ```
-# Install the requirements
 pip install -r requirements.txt
 ```
 
@@ -70,7 +91,7 @@ python src/app.py
 
 The dashboard could then be accessed locally in <localhost:8050>. Now, you are good to go!
 
-## Contributions
+## Contributors
 
 This app was developed by the following contributors:
 
