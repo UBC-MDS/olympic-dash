@@ -1,7 +1,6 @@
 from dash import Dash, dcc, html, Input, Output
 import pandas as pd
 import altair as alt
-from vega_datasets import data
 
 # import data
 raw_df = pd.read_csv("../data/raw/olympics_data.csv", index_col = 0)
