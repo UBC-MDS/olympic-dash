@@ -1,10 +1,11 @@
+from re import X
 from dash import Dash, dcc, html, Input, Output
+import dash_bootstrap_components as dbc
 import pandas as pd
 import altair as alt
-import dash_bootstrap_components as dbc
+import os
 alt.data_transformers.disable_max_rows()
 
-import os
 
 # import data
 # absolute path to this file
@@ -92,8 +93,11 @@ app.layout = dbc.Container([
                 id='line',
                 style={'border-width': '0', 'width': '140%', 'height': '420px'})
         ]),
-    ])
+    ]),
 ])
+
+# dcc.Store stores the intermediate value
+dcc.Store(id='filter_df')
 
 # Set up callbacks/backend
 @app.callback(
@@ -112,7 +116,7 @@ def data_preprocess(season, medal_type):
 
         for medal in medal_type:
             temp = temp_df[temp_df['medal'] == medal]
-            filter = filter.append(temp)
+            filter = pd.concat([filter, temp])
         
         return filter.to_json()
 
@@ -140,11 +144,11 @@ def plot_altair(filter_df, medals_by_country):
         df = df.reset_index()
 
         chart = alt.Chart(df).mark_circle().encode(
-                y = 'athletes',
-                x = 'ave_metals',
+                x = alt.X('athletes', title = 'Athletes'),
+                y = alt.Y('ave_metals', title = 'Ave. Metals per Athlete'),
                 size = alt.Size('metal_count', legend=alt.Legend(
                     orient='top',
-                    title='medal count'
+                    title='Total Medal Count'
                     )
                 ),
                 tooltip='noc'
@@ -211,7 +215,6 @@ def plot_altair(filter_df, age_slider, medals_by_country, medal_type):
                     order=alt.Order('order', sort='ascending')
                 ).properties(
                     title='Olympic medals earned by age group')
-        
         return chart.to_html()
 
 @app.callback(
