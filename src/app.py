@@ -2,7 +2,9 @@ from dash import Dash, dcc, html, Input, Output
 import pandas as pd
 import altair as alt
 import dash_bootstrap_components as dbc
-alt.data_transformers.enable('data_server')
+from vega_datasets import data
+alt.data_transformers.disable_max_rows()
+
 
 import os
 # import data
