@@ -1,8 +1,12 @@
 from re import X
 from dash import Dash, dcc, html, Input, Output
+import dash_bootstrap_components as dbc
 import pandas as pd
 import altair as alt
 import os
+
+alt.data_transformers.disable_max_rows()
+
 # import data
 # absolute path to this file
 FILE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -89,11 +93,11 @@ app.layout = dbc.Container([
                 id='line',
                 style={'border-width': '0', 'width': '140%', 'height': '420px'})
         ]),
-    ])
-    
-    # dcc.Store stores the intermediate value
-    dcc.Store(id='filter_df')
+    ]),
 ])
+
+# dcc.Store stores the intermediate value
+dcc.Store(id='filter_df')
 
 # Set up callbacks/backend
 @app.callback(
@@ -140,11 +144,11 @@ def plot_altair(filter_df, medals_by_country):
         df = df.reset_index()
 
         chart = alt.Chart(df).mark_circle().encode(
-                y = 'athletes',
-                x = 'ave_metals',
+                x = alt.X('athletes', title = 'Athletes'),
+                y = alt.Y('ave_metals', title = 'Ave. Metals per Athlete'),
                 size = alt.Size('metal_count', legend=alt.Legend(
                     orient='top',
-                    title='medal count'
+                    title='Total Medal Count'
                     )
                 ),
                 tooltip='noc'
