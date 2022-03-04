@@ -32,6 +32,44 @@ in Olympic success between countries, medal types, athlete demographics, and mor
 
 ![Alt text](img/olympic-dash-proposal.png?raw=true "Dashboard Proposal")
 
+## Usage and Installation
+TODO
+
+## Contributing to The Dashboard
+
+You are welcome to contribute to olympic-dash if you have any idea regarding to this dashboard. Please go through the [contributing guidelines](CONTRIBUTING.md) for the recommended ways if you want to contribute or report/fix any existing bugs.
+
+### How to install and run locally
+
+To run the dashboard locally, we recommend to use a virtual environment like [venv](https://docs.python.org/3/library/venv.html) or [Anaconda](https://www.anaconda.com/). For simplicity, we could demonstrate the installiation process with venv.
+
+#### Setup
+
+Run the following command at the root directory of the project:
+
+```
+# Create a virtual environment
+python -m venv olympicdash
+```
+
+```
+# Activate the environment
+source olympicdash/bin/activate
+```
+
+```
+# Install the requirements
+pip install -r requirements.txt
+```
+
+#### Run the dashboard
+
+```
+python src/app.py
+```
+
+The dashboard could then be accessed locally in <localhost:8050>. Now, you are good to go!
+
 ## Contributions
 
 This app was developed by the following contributors:
