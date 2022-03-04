@@ -2,8 +2,16 @@ from dash import Dash, dcc, html, Input, Output
 import pandas as pd
 import altair as alt
 
+import os
 # import data
-raw_df = pd.read_csv("../data/raw/olympics_data.csv", index_col = 0)
+# absolute path to this file
+FILE_DIR = os.path.dirname(os.path.abspath(__file__))
+# absolute path to this file's root directory
+PARENT_DIR = os.path.join(FILE_DIR, os.pardir) 
+dir_of_interest = os.path.join(PARENT_DIR, 'data')
+
+
+raw_df = pd.read_csv(f"{dir_of_interest}/raw/olympics_data.csv", index_col = 0)
 
 # list of the top 20 events
 top20_events = (raw_df
