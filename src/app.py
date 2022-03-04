@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 import dash_bootstrap_components as dbc
 from vega_datasets import data
-alt.data_transformers.enable('data_server')
+alt.data_transformers.disable_max_rows()
 
 # import data
 raw_df = pd.read_csv("../data/raw/olympics_data.csv", index_col = 0)
