@@ -26,72 +26,98 @@ top20_events = (raw_df
                 .index
                 .tolist())
 
-## Setup app and layout/frontend
-#app = Dash(__name__, external_stylesheets=['https://codepen.io/chriddyp/pen/bWLwgP.css'])
+# Creating the objects of the dashboard
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+season_checkbox = dcc.RadioItems(
+            id='season',
+            options=[
+                {'label': 'Summer', 'value': 'Summer'},
+                {'label': 'Winter', 'value': 'Winter'},
+                {'label': 'All', 'value': 'all'}],
+            value='all',
+            labelStyle={'display': 'block'})
 
-server = app.server
+medal_checklist = dcc.Checklist(
+            id='medal_type',
+            options=[
+                {'label': 'Gold', 'value': 'Gold'},
+                {'label': 'Silver', 'value': 'Silver'},
+                {'label': 'Bronze', 'value': 'Bronze'}],
+            value=['Gold', 'Silver', 'Bronze'],
+            labelStyle={'display': 'block'})
 
-app.layout = dbc.Container([
-    html.H1("Olympics Dashboard"),
-    dbc.Row([
-        dbc.Col([
-            html.H3("Season"),
-            dcc.RadioItems(
-                id='season',
-                options=[
-                    {'label': 'Summer', 'value': 'Summer'},
-                    {'label': 'Winter', 'value': 'Winter'},
-                    {'label': 'All', 'value': 'all'}],
-                value='all',
-                labelStyle={'display': 'block'}),
-            html.H3("Medal Type"),
-            dcc.Checklist(
-                id='medal_type',
-                options=[
-                    {'label': 'Gold', 'value': 'Gold'},
-                    {'label': 'Silver', 'value': 'Silver'},
-                    {'label': 'Bronze', 'value': 'Bronze'}],
-                value=['Gold', 'Silver', 'Bronze'],
-                labelStyle={'display': 'block'}),
-
-            # dcc.Store stores the intermediate value
-            dcc.Store(id='filter_df')
-        ], width=1.5),
-        dbc.Col([
-            html.Iframe(
+bubble_plot = html.Div([
+    html.Iframe(
                 id='scatter',
-                style={'border-width': '0', 'width': '140%', 'height': '420px'}),
-            # dcc.Dropdown(
-            #     id='event-dropdown',
-            #     value="Football Men's Football",
-            #     options=[{'label': event, 'value': event} for event in top20_events]),
-            html.Iframe(
+                style={'border-width': '0', 'width': '140%', 'height': '420px'})
+])
+
+height_hist = html.Iframe(
                 id='height_hist',
-                style={'border-width': '0', 'width': '140%', 'height': '420px'}),
-            dcc.Slider(id='medals_by_country',
+                style={'border-width': '0', 'width': '140%', 'height': '420px'})
+
+year_slider = dcc.Slider(id='medals_by_country',
                 value=2000,
                 min=1896,
                 max=2016,
                 step=2,
                 marks=None,
-                tooltip={"placement": "bottom", "always_visible": True}),
-        ]),
-        dbc.Col([
-            html.Iframe(
+                tooltip={"placement": "bottom", "always_visible": True})
+
+age_hist = html.Iframe(
                 id='age_hist',
-                style={'border-width': '0', 'width': '140%', 'height': '420px'}),
-            dcc.RangeSlider(id='age_slider',
+                style={'border-width': '0', 'width': '140%', 'height': '420px'})
+
+age_slider = dcc.RangeSlider(id='age_slider',
                 min=0,
                 max=75,
                 step=1,
                 value=[0, 75],
                 marks=None,
-                tooltip={"placement": "bottom", "always_visible": True}),
-            html.Iframe(
+                tooltip={"placement": "bottom", "always_visible": True})
+
+line_plot = html.Iframe(
                 id='line',
                 style={'border-width': '0', 'width': '140%', 'height': '420px'})
+
+## Setup app and layout/frontend
+#app = Dash(__name__, external_stylesheets=['https://codepen.io/chriddyp/pen/bWLwgP.css'])
+app = Dash(__name__, external_stylesheets=[dbc.themes.MINTY])
+
+server = app.server
+
+
+app.layout = dbc.Container([
+    dbc.Row([
+        dbc.Col([
+            # dcc.Store stores the intermediate value
+            dcc.Store(id='filter_df'),
+
+            # actual layout
+            html.H1("Olympics Dashboard"),
+            dbc.Col([
+                dbc.Row([
+                    html.H3("Season"),
+                    season_checkbox
+                ], align="start"),
+                dbc.Row([
+                    html.H3("Medal Type"),
+                    medal_checklist,
+                ], align="center"),
+                dbc.Row([
+                    html.H3("Year"),
+                    year_slider,
+                ], align="end"),
+            ], width=1.5)
+        ]),
+        dbc.Col([
+            dbc.Spinner(children = bubble_plot, color="primary"),
+            dbc.Spinner(children = height_hist, color="success")
+        ]),
+        dbc.Col([
+            dbc.Spinner(children = age_hist, color="warning"),
+            age_slider,
+            dbc.Spinner(children = line_plot, color="danger"),
         ]),
     ]),
 ])
@@ -173,13 +199,14 @@ def plot_altair(filter_df, medals_by_country, medal_type):
         event_select = alt.selection_single(fields=['sport'], bind=event_dropdown, name='Olympic')
 
         chart = alt.Chart(temp).mark_bar().encode(
-            x=alt.X('height', bin=alt.Bin(maxbins=20)),
-            y='count()'
+            x=alt.X('height', bin=alt.Bin(maxbins=20), title="Athlete Height"),
+            y=alt.Y('count()',title="Count")
             ).add_selection(
                 event_select
             ).transform_filter(
                 event_select
-            ).properties(title="Athlete Height Distribution")
+            ).properties(title="Athlete Height Distribution"
+            )
         
         return chart.to_html()
 
@@ -228,12 +255,12 @@ def plot_altair(filter_df):
     unique_noc_sorted = sorted(unique_noc)
 
     chart_base = alt.Chart(line_chart_df).mark_line().encode(
-        x='year',
+        x=alt.X('year', title="Year"),
         y=alt.Y("count()", title = 'Count of Medals')
     ).properties(title="Medals Earned Over Time")
 
     genre_dropdown = alt.binding_select(options=unique_noc_sorted)
-    genre_select = alt.selection_single(fields=['noc'], bind=genre_dropdown, name="NOC")
+    genre_select = alt.selection_single(fields=['noc'], bind=genre_dropdown, name="Country")
 
     chart = chart_base.add_selection(
         genre_select
