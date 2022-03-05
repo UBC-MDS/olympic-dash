@@ -26,7 +26,7 @@ We propose building a visualization app to allow IOC members (and members of the
 
 ## Description of The Dashboard
 
-To explore the current dashboard, please click [here](...LINK TO BE ADDED...).
+To explore the current dashboard, please click [here](https://olympic-dash-dsci532-group22-p.herokuapp.com/).
 
 This app contains a dashboard which visualizes Olympic data from 1896 up until 2016. 
 Key metrics of interest will be displayed including: 
