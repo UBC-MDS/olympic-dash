@@ -101,19 +101,28 @@ app.layout = dbc.Container([
                     season_checkbox
                 ], align="start"),
                 dbc.Row([
+                    html.Br(),
+                    html.Br(),
+                ]),
+                dbc.Row([
                     html.H3("Medal Type"),
                     medal_checklist,
                 ], align="center"),
+                dbc.Row([
+                    html.Br(),
+                    html.Br(),
+                ]),
                 dbc.Row([
                     html.H3("Year"),
                     year_slider,
                 ], align="end"),
             ], width=1.5)
-        ]),
+        ], width=2),
         dbc.Col([
             dbc.Spinner(children = bubble_plot, color="primary"),
             dbc.Spinner(children = height_hist, color="success")
         ]),
+        dbc.Col(width=1),
         dbc.Col([
             dbc.Spinner(children = age_hist, color="warning"),
             age_slider,
