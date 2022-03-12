@@ -14,7 +14,6 @@ FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.join(FILE_DIR, os.pardir) 
 dir_of_interest = os.path.join(PARENT_DIR, 'data')
 
-
 raw_df = pd.read_csv(f"{dir_of_interest}/raw/olympics_data.csv", index_col = 0)
 
 # list of the top 20 events
@@ -86,6 +85,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.MINTY])
 
 server = app.server
 
+app.title = "Olympic Dash"
 
 app.layout = dbc.Container([
     dbc.Row([
