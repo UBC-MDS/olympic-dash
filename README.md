@@ -91,6 +91,15 @@ python src/app.py
 
 The dashboard could then be accessed locally in <localhost:8050>. Now, you are good to go!
 
+### Install using docker
+
+To run this app using Docker write the following commands after cloning the repo:
+
+```bash
+cd olympic-dash
+docker-compose up
+```
+Finally, open the app in the followin URL http://localhost:8000/
 ## Contributors
 
 This app was developed by the following contributors:
