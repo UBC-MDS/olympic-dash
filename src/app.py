@@ -186,9 +186,12 @@ def plot_altair(filter_df, medals_by_country):
                 x = alt.X('athletes', title = 'Athletes'),
                 y = alt.Y('ave_medals', title = 'Ave. Medals per Athlete'),
                 size = alt.Size('medal', legend=alt.Legend(
-                    orient='top',
+                    orient = 'top',
                     title='Total Medal Count'
-                    )
+                    )),
+                color = alt.Color('continent', legend = alt.Legend(
+                    orient = 'top',
+                    title = 'IOC Region')
                 ),
                 tooltip='country'
             ).interactive()
