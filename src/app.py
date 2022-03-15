@@ -15,6 +15,7 @@ PARENT_DIR = os.path.join(FILE_DIR, os.pardir)
 dir_of_interest = os.path.join(PARENT_DIR, 'data')
 
 raw_df = pd.read_csv(f"{dir_of_interest}/processed/medals.csv")
+noc_list = pd.read_csv(f"{dir_of_interest}/processed/noc_list.csv")
 
 # list of the top 20 events
 top20_events = (raw_df
@@ -168,7 +169,6 @@ def plot_altair(filter_df, medals_by_country):
         temp = temp[temp['year'] == year]
 
         athlete_df = pd.read_csv(f"{dir_of_interest}/processed/athlete_count.csv")
-        noc_list = pd.read_csv(f"{dir_of_interest}/processed/noc_list.csv")
 
         athlete_df = athlete_df[athlete_df['year'] == year]
 
