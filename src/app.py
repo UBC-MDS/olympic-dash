@@ -14,7 +14,8 @@ FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.join(FILE_DIR, os.pardir) 
 dir_of_interest = os.path.join(PARENT_DIR, 'data')
 
-raw_df = pd.read_csv(f"{dir_of_interest}/raw/olympics_data.csv", index_col = 0)
+raw_df = pd.read_csv(f"{dir_of_interest}/processed/medals.csv")
+noc_list = pd.read_csv(f"{dir_of_interest}/processed/noc_list.csv")
 
 # list of the top 20 events
 top20_events = (raw_df
@@ -147,14 +148,12 @@ def data_preprocess(season, medal_type):
         temp_df = temp_df[temp_df['season'] == season]
 
     if len(medal_type) > 0:
-        temp_df = temp_df[temp_df['medal'].notna()]
-
         for medal in medal_type:
             temp = temp_df[temp_df['medal'] == medal]
             filter = pd.concat([filter, temp])
         
         return filter.to_json()
-
+    
     else:
         return temp_df.to_json()
 
@@ -168,25 +167,33 @@ def plot_altair(filter_df, medals_by_country):
         year = int(medals_by_country)
 
         temp = temp[temp['year'] == year]
-        athlete_df = raw_df[raw_df['year'] == year]
+
+        athlete_df = pd.read_csv(f"{dir_of_interest}/processed/athlete_count.csv")
+
+        athlete_df = athlete_df[athlete_df['year'] == year]
 
         df = pd.DataFrame()
 
-        df['athletes'] = athlete_df.groupby(['noc'])['id'].nunique()
-        df['metal_count'] = temp.groupby(['noc'])['medal'].count()
-        df['ave_metals'] = df['metal_count'] / df['athletes']
+        df = athlete_df.loc[:,['noc', 'athletes']].reset_index(drop = True)
+        df = df.join(temp.groupby(['noc'])['medal'].count(), on = 'noc')
+        df['ave_medals'] = df['medal'] / df['athletes']
 
-        df = df.reset_index()
+        df = df.dropna()
+
+        df = df.join(noc_list.reset_index()).reset_index()
 
         chart = alt.Chart(df).mark_circle().encode(
                 x = alt.X('athletes', title = 'Athletes'),
-                y = alt.Y('ave_metals', title = 'Ave. Metals per Athlete'),
-                size = alt.Size('metal_count', legend=alt.Legend(
-                    orient='top',
+                y = alt.Y('ave_medals', title = 'Ave. Medals per Athlete'),
+                size = alt.Size('medal', legend=alt.Legend(
+                    orient = 'top',
                     title='Total Medal Count'
-                    )
+                    )),
+                color = alt.Color('continent', legend = alt.Legend(
+                    orient = 'top',
+                    title = 'IOC Region')
                 ),
-                tooltip='noc'
+                tooltip='country'
             ).interactive()
         
         return chart.to_html()
