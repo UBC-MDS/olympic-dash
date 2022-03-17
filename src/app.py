@@ -17,6 +17,22 @@ dir_of_interest = os.path.join(PARENT_DIR, 'data')
 raw_df = pd.read_csv(f"{dir_of_interest}/processed/medals.csv")
 noc_list = pd.read_csv(f"{dir_of_interest}/processed/noc_list.csv")
 
+# list of available olympics years for the year slider
+# sets the label opacity to 0 to make invisible so you 
+# only see the tooltip for current year selection
+years = list(raw_df['year'].unique())
+years.sort()
+
+slider_years = dict.fromkeys(map(int, years))
+
+for year in years:
+    my_dict = {}
+    
+    my_dict['label'] = str(year)
+    my_dict['style'] = {'opacity': 0}
+    
+    slider_years[year] = my_dict
+
 # list of the top 20 events
 top20_events = (raw_df
                 .groupby("sport")
@@ -54,17 +70,20 @@ bubble_plot = html.Div([
 
 height_hist = html.Iframe(
                 id='height_hist',
-                style={'border-width': '0', 'width': '140%', 'height': '420px'})
 
-year_slider = dcc.Slider(id='medals_by_country',
-                value=2000,
+                style={'border-width': '0', 'width': '140%', 'height': '420px'}),
+            dcc.Slider(id='medals_by_country',
                 min=1896,
                 max=2016,
-                step=2,
-                marks=None,
-                tooltip={"placement": "bottom", "always_visible": True})
+                marks=slider_years,
+                step=None,
+                value=2000,
+                tooltip={"placement": "bottom", "always_visible": True},
+                included=False),
+        ]),
+        dbc.Col([
+            html.Iframe(
 
-age_hist = html.Iframe(
                 id='age_hist',
                 style={'border-width': '0', 'width': '140%', 'height': '420px'})
 
