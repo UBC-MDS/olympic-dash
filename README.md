@@ -26,7 +26,7 @@ We propose building a visualization app to allow IOC members (and members of the
 
 ## Description of The Dashboard
 
-To explore the current dashboard, please click [here](...LINK TO BE ADDED...).
+To explore the current dashboard, please click [here](https://olympic-dash-dsci532-group22-p.herokuapp.com/).
 
 This app contains a dashboard which visualizes Olympic data from 1896 up until 2016. 
 Key metrics of interest will be displayed including: 
@@ -91,6 +91,15 @@ python src/app.py
 
 The dashboard could then be accessed locally in <localhost:8050>. Now, you are good to go!
 
+### Install using docker
+
+To run this app using Docker write the following commands after cloning the repo:
+
+```bash
+cd olympic-dash
+docker-compose up
+```
+Finally, open the app in the followin URL http://localhost:8000/
 ## Contributors
 
 This app was developed by the following contributors:
