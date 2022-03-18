@@ -71,19 +71,18 @@ bubble_plot = html.Div([
 height_hist = html.Iframe(
                 id='height_hist',
 
-                style={'border-width': '0', 'width': '140%', 'height': '420px'}),
-            dcc.Slider(id='medals_by_country',
+                style={'border-width': '0', 'width': '140%', 'height': '420px'})
+
+year_slider = dcc.Slider(id='medals_by_country',
                 min=1896,
                 max=2016,
                 marks=slider_years,
                 step=None,
                 value=2000,
                 tooltip={"placement": "bottom", "always_visible": True},
-                included=False),
-        ]),
-        dbc.Col([
-            html.Iframe(
+                included=False)
 
+age_hist = html.Iframe(
                 id='age_hist',
                 style={'border-width': '0', 'width': '140%', 'height': '420px'})
 
