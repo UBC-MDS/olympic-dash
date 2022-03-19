@@ -107,63 +107,153 @@ server = app.server
 app.title = "Olympic Dash"
 
 app.layout = dbc.Container([
-    dbc.Row([
-        dbc.Col([
+    dbc.Row(
+        [
+            html.Div(
+                html.Img(src="assets/olympic_pic.png", height="80px"),
+                style ={"position" : "left",
+                        "top": "20px", 
+                        "left": 0, 
+                        "width": 70, }
+            ),
+            html.Div("Olympics Dashboard",
+                style={'font-size': "260%", 'color':"#FFF",'text-aligh':'right', 
+                "padding": "0",
+                "white-space":"nowrap",
+                "position" : "left",
+                "top": 10, 
+                "left": 90, 
+                "width": 800,
+                },
+            ),
+        ],
+        id="header",
+        className="g-0",
+        style={
+            "background-image": "linear-gradient(to right, #074983, #ced2cc)",
+            "position": "absolute",
+            "width":"100%",
+            "left": 0,
+            "height":80,
+            }
+    ),
+    html.Br(),
+    dbc.Row(
+        [
             # dcc.Store stores the intermediate value
             dcc.Store(id='filter_df'),
 
-            # actual layout
-            html.H1("Olympics Dashboard"),
+            # filers
             dbc.Col([
-                dbc.Row([
-                    html.H3("Season"),
-                    season_checkbox
-                ], align="start"),
-                dbc.Row([
-                    html.Br(),
-                    html.Br(),
-                ]),
-                dbc.Row([
-                    html.H3("Medal Type"),
-                    medal_checklist,
-                ], align="center"),
-                dbc.Row([
-                    html.Br(),
-                    html.Br(),
-                ]),
-                dbc.Row([
-                    html.H3("Year"),
-                    year_slider,
-                ], align="end"),
-            ], width=1.5)
-        ], width=2),
+                html.H3("Season"),
+                season_checkbox
+            ], style={"position": "absolute", "left": 110, "top": 20}), 
+            dbc.Col([
+                html.H3("Medal Type"),
+                medal_checklist,
+            ], style={"position": "absolute", "left": 500, "top": 20}),
+            dbc.Col([
+                html.H3("Year"),
+                year_slider,
+            ], style={"position": "absolute", "left": 900, "top": 20, "width": 500,}),   
+        ],
+        style={
+            "position": "absolute",
+            "top": 80,
+            "left": 0,
+            # "bottom": 160,
+            "width":"110%",
+            "height":160,
+            # "padding": "2rem 1rem",
+            # "background-image": "url(/assets/background.jpg)",
+            "background-color": "#E4EBF5",
+            # "background-blend-mode": "overlay",
+        }, 
+    ),
+    html.Br(),
+    dbc.Row([
         dbc.Col([
-            dbc.Spinner(children = bubble_plot, color="primary"),
+            dbc.Card(
+                [
+                    dbc.CardHeader(
+                    html.Label("Total Medal Count",
+                    style={"font-size":18, 'text_aligh': 'left', 'color': '#3F69A9', 'font-family': 'sans-serif'})), 
+                    html.Br(),
+                    html.Br(),
+                    dbc.Spinner(children = bubble_plot, color="primary")
+                ],
+                style={"width": "39rem", "height": "36rem"},
+            ),
             dbc.Row([
+                    html.Br()
+            ]),
+            dbc.Card(
+                [
+                    dbc.CardHeader(
+                    html.Label("Athlete Height Distribution",
+                    style={"font-size":18, 'text_aligh': 'left', 'color': '#3F69A9', 'font-family': 'sans-serif'})), 
                     html.Br(),
                     html.Br(),
-                    html.Br(),
-                    html.Br(),
-                    html.Br(),
-                ]),
-            dbc.Spinner(children = height_hist, color="success")
-        ]),
-        dbc.Col(width=1),
+                    dbc.Spinner(children = height_hist, color="success")
+                ],
+                style={"width": "39rem", "height": "33rem"},
+            )
+        ],
+            style={
+                "position": "absolute",
+                "left": 100,
+            }, 
+        ),
+        # dbc.Col(width=1),
         dbc.Col([
-            dbc.Spinner(children = age_hist, color="warning"),
-
-                html.Div([
-                    html.H6("Age Slider for histogram", style={'text-align': "center"}),
-                    age_slider,
+            dbc.Card(
+                [
+                    dbc.CardHeader(
+                        html.Label("Olympic Medals Earned by Age Group",
+                        style={"font-size":18, 'text_aligh': 'left', 'color': '#3F69A9', 'font-family': 'sans-serif'})
+                    ), 
                     html.Br(),
-            ], 
-            style={'border': "1px solid black"}),
+                    dbc.Spinner(children = age_hist, color="warning"),
+                    html.Div(
+                        [
+                            html.H6("Age Slider", style={'text-align': "center"}),
+                            age_slider
+                        ], 
+                        # style={'border': "1px solid black"}
+                    )
+                ],
+                style={"width": "39rem", "height": "36rem"}
+            ),
             dbc.Row([
+                    html.Br()
+            ]),
+            dbc.Card(
+                [
+                    dbc.CardHeader(
+                    html.Label("Medals Earned Over Time",
+                    style={"font-size":18, 'text_aligh': 'left', 'color': '#3F69A9', 'font-family': 'sans-serif'})), 
                     html.Br(),
-                ]),
-            dbc.Spinner(children = line_plot, color="danger"),
-        ]),
-    ]),
+                    html.Br(),
+                    dbc.Spinner(children = line_plot, color="danger"),
+                ],
+                style={"width": "39rem", "height": "33rem"},
+            )
+        ],
+            style={
+                "position": "absolute",
+                "left": 770,
+            }, 
+        ),
+    ],
+        style={
+        "position": "absolute",
+        "top": 240,
+        "left": 0,
+        "width":"110%",
+        "height":1200,
+        "background-color": "#E4EBF5",
+        }, 
+    ),
 ])
 
 # dcc.Store stores the intermediate value
@@ -220,11 +310,11 @@ def plot_altair(filter_df, medals_by_country):
                 x = alt.X('athletes', title = 'Athletes'),
                 y = alt.Y('ave_medals', title = 'Ave. Medals per Athlete'),
                 size = alt.Size('medal', legend=alt.Legend(
-                    orient = 'top',
+                    orient = 'right',
                     title='Total Medal Count'
                     )),
                 color = alt.Color('continent', legend = alt.Legend(
-                    orient = 'top',
+                    orient = 'right',
                     title = 'IOC Region')
                 ),
                 tooltip='country'
@@ -256,8 +346,9 @@ def plot_altair(filter_df, medals_by_country, medal_type):
                 event_select
             ).transform_filter(
                 event_select
-            ).properties(title="Athlete Height Distribution"
             )
+            # .properties(title="Athlete Height Distribution"
+            # )
         
         return chart.to_html()
 
@@ -291,10 +382,11 @@ def plot_altair(filter_df, age_slider, medals_by_country, medal_type):
                             scale=alt.Scale(
                                         domain=['Bronze', 'Silver', 'Gold'],
                                         range=['#CD7F32', '#C0C0C0', '#FFD700']),
-                            legend=alt.Legend(orient='top')),
+                            legend=alt.Legend(orient='right')),
                     order=alt.Order('order', sort='ascending')
-                ).properties(
-                    title='Olympic medals earned by age group')
+                )
+                # .properties(
+                #     title='Olympic medals earned by age group')
         return chart.to_html()
 
 @app.callback(
@@ -310,7 +402,8 @@ def plot_altair(filter_df):
     chart_base = alt.Chart(line_chart_df).mark_line().encode(
         x=alt.X('year', title="Year"),
         y=alt.Y("count()", title = 'Count of Medals')
-    ).properties(title="Medals Earned Over Time")
+    )
+    # .properties(title="Medals Earned Over Time")
 
     genre_dropdown = alt.binding_select(options=unique_noc_sorted)
     genre_select = alt.selection_single(fields=['noc'], bind=genre_dropdown, name="Country")
