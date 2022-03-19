@@ -54,6 +54,9 @@ data in the bubble chart and both histograms by year. Using these filters, users
 will be able to investigate trends in Olympic success between countries, medal types, 
 athlete demographics, and more.
 
+For the general information of this dashboard and the link to Github Repo, please click "About" button
+on the right side of dashboard header.
+
 ## Example Usage
 
 ![Alt Text](img/dashboard_usage_python.gif)
