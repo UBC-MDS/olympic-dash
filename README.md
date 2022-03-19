@@ -56,7 +56,7 @@ athlete demographics, and more.
 
 ## Example Usage
 
-(ADD GIF)
+![Alt Text](img/dashboard_usage_python.gif)
 
 ## Contribute to This Dashboard
 
