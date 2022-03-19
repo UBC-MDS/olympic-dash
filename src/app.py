@@ -139,12 +139,28 @@ app.layout = dbc.Container([
         ], width=2),
         dbc.Col([
             dbc.Spinner(children = bubble_plot, color="primary"),
+            dbc.Row([
+                    html.Br(),
+                    html.Br(),
+                    html.Br(),
+                    html.Br(),
+                    html.Br(),
+                ]),
             dbc.Spinner(children = height_hist, color="success")
         ]),
         dbc.Col(width=1),
         dbc.Col([
             dbc.Spinner(children = age_hist, color="warning"),
-            age_slider,
+
+                html.Div([
+                    html.H6("Age Slider for histogram", style={'text-align': "center"}),
+                    age_slider,
+                    html.Br(),
+            ], 
+            style={'border': "1px solid black"}),
+            dbc.Row([
+                    html.Br(),
+                ]),
             dbc.Spinner(children = line_plot, color="danger"),
         ]),
     ]),
@@ -234,7 +250,8 @@ def plot_altair(filter_df, medals_by_country, medal_type):
 
         chart = alt.Chart(temp).mark_bar().encode(
             x=alt.X('height', bin=alt.Bin(maxbins=20), title="Athlete Height"),
-            y=alt.Y('count()',title="Count")
+            y=alt.Y('count()',title="Count"),
+            tooltip = ['count()']
             ).add_selection(
                 event_select
             ).transform_filter(
@@ -266,13 +283,15 @@ def plot_altair(filter_df, age_slider, medals_by_country, medal_type):
         chart = alt.Chart(temp).mark_area(
                     interpolate='step'
                 ).encode(
-                    alt.X('age:Q', bin=alt.Bin(maxbins=100), title = "Athlete age range"),
-                    alt.Y('count()', title = "Medals Earned"),
-                    alt.Color('medal:N',
+                    x=alt.X('age:Q', bin=alt.Bin(maxbins=100), title = "Athlete age range"),
+                    y=alt.Y('count()', title = "Medals Earned"),
+                    tooltip = ['count()'],
+                    color=alt.Color('medal:N',
                             sort=["Gold", "Silver", "Bronze"],
                             scale=alt.Scale(
                                         domain=['Bronze', 'Silver', 'Gold'],
-                                        range=['#CD7F32', '#C0C0C0', '#FFD700'])),
+                                        range=['#CD7F32', '#C0C0C0', '#FFD700']),
+                            legend=alt.Legend(orient='top')),
                     order=alt.Order('order', sort='ascending')
                 ).properties(
                     title='Olympic medals earned by age group')
