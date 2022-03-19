@@ -107,6 +107,40 @@ server = app.server
 app.title = "Olympic Dash"
 
 app.layout = dbc.Container([
+    dbc.Toast(
+    [html.P(
+        "Here is the place for the historic olympic data and trends."
+    ),
+    html.A(
+        "Data",
+        href="https://github.com/rfordatascience/tidytuesday",
+        style={"text-decoration": "underline", "color": "#074983"},
+    ),
+    html.P(
+        "The dataset is from tidytuesday, which includes the data from 1896 up until 2016."
+    ),
+    html.P(
+        "Please note that the Winter and Summer Games were held in the same year up until 1992. After that, they staggered them such that Winter Games occur on a four-year cycle starting with 1994, then Summer in 1996, then Winter in 1998, and so on."
+    ),
+    html.A(
+        "GitHub Repo",
+        href="https://github.com/UBC-MDS/olympic-dash",
+        style={ "text-decoration": "underline", "color": "#074983"},
+    ),
+    html.P(
+        "Please go to the GitHub repository for more information."
+    ),],
+    id="toast",
+    header="About",
+    is_open=False,
+    dismissable=True,
+    style={
+        "position": "fixed", 
+        "top": 75, 
+        "right": 10, 
+        "width": 400, 
+        "z-index": "1"},
+    ),
     dbc.Row(
         [
             html.Div(
@@ -117,7 +151,7 @@ app.layout = dbc.Container([
                         "width": 70, }
             ),
             html.Div("Olympics Dashboard",
-                style={'font-size': "260%", 'color':"#FFF",'text-aligh':'right', 
+                style={"font-size": "260%", "color":"#FFF","text-aligh":"right", 
                 "padding": "0",
                 "white-space":"nowrap",
                 "position" : "left",
@@ -126,6 +160,21 @@ app.layout = dbc.Container([
                 "width": 800,
                 },
             ),
+            dbc.Button(
+                "About",
+                id="toast-toggle",
+                color="#074983",
+                n_clicks=0,
+                style={
+                    "white-space":"nowrap",
+                    "top": 15,
+                    "position" : "absolute",
+                    "right":"20px",
+                    'text-aligh':'center',
+                    "width": 120,
+                    "font-size": "120%"
+                }
+            )
         ],
         id="header",
         className="g-0",
@@ -161,13 +210,9 @@ app.layout = dbc.Container([
             "position": "absolute",
             "top": 80,
             "left": 0,
-            # "bottom": 160,
             "width":"110%",
             "height":160,
-            # "padding": "2rem 1rem",
-            # "background-image": "url(/assets/background.jpg)",
             "background-color": "#E4EBF5",
-            # "background-blend-mode": "overlay",
         }, 
     ),
     html.Br(),
@@ -204,7 +249,6 @@ app.layout = dbc.Container([
                 "left": 100,
             }, 
         ),
-        # dbc.Col(width=1),
         dbc.Col([
             dbc.Card(
                 [
@@ -218,8 +262,7 @@ app.layout = dbc.Container([
                         [
                             html.H6("Age Slider", style={'text-align': "center"}),
                             age_slider
-                        ], 
-                        # style={'border': "1px solid black"}
+                        ],
                     )
                 ],
                 style={"width": "39rem", "height": "36rem"}
@@ -416,6 +459,14 @@ def plot_altair(filter_df):
 
     return chart.to_html()
 
+@app.callback(
+    Output("toast", "is_open"),
+    [Input("toast-toggle", "n_clicks")],
+)
+def open_toast(n):
+    if n:
+        return True
+    return False
 
 if __name__ == '__main__':
     app.run_server(debug=True)
