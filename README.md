@@ -35,13 +35,13 @@ Key metrics of interest will be displayed including:
 - Athlete height based on Olympic events 
 - Medals per country will be displayed 
 
-Medals earned per country will be displayed via a bubble chart accompanied by a 
-slider, allowing users to control the year of the Olympics displayed by the graph. 
+Medals earned per country will be displayed via a bubble chart. Countries
+are color coded by the IOC continent region they belong to. 
 
 A bar chart will show the medals earned for each athlete age bracket, while a histogram 
 will show the distribution of athlete heights based on the event selected. These figures 
-will contain a slider allowing users to adjust athlete age ranges and a dropdown list, 
-allowing users to select the event visualized respectively. 
+will contain a slider allowing users to adjust athlete age ranges and a dropdown list respectively, 
+allowing users to select the event visualized. 
 
 Lastly, a line graph will display the number of medals earned by countries over time. This 
 figure will be accompanied by a dropdown list allowing users to select a subset of countries 
@@ -49,12 +49,14 @@ to display on the graph.
 
 Radio buttons on the side of the dashboard will allow for filtering of 
 summer/winter Olympics data, in addition to allowing for users to filter data 
-by the type of medals. Using these filters, users will be able to investigate trends 
-in Olympic success between countries, medal types, athlete demographics, and more.
+by the type of medals. Additionally a year slider will allow for users to filter 
+data in the bubble chart and both histograms by year. Using these filters, users 
+will be able to investigate trends in Olympic success between countries, medal types, 
+athlete demographics, and more.
 
-## Proposed Sketch
+## Example Usage
 
-![Alt text](img/olympic-dash-proposal.png?raw=true "Dashboard Proposal")
+(ADD GIF)
 
 ## Contribute to This Dashboard
 
