@@ -79,8 +79,9 @@ year_slider = dcc.Slider(id='medals_by_country',
                 marks=slider_years,
                 step=None,
                 value=2000,
-                tooltip={"placement": "bottom", "always_visible": True},
-                included=False)
+                tooltip={"placement": "right", "always_visible": True},
+                included=False,
+                vertical=True)
 
 age_hist = html.Iframe(
                 id='age_hist',
@@ -134,7 +135,7 @@ app.layout = dbc.Container([
                 dbc.Row([
                     html.H3("Year"),
                     year_slider,
-                ], align="end"),
+                ], align="start"),
             ], width=1.5)
         ], width=2),
         dbc.Col([
